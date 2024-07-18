@@ -1,25 +1,25 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import auth from '../../middlewares/auth';
-import { projectValidation } from './project.validation';
-import { projectControllers } from './project.controller';
+import { personalInformationValidation } from './Information.validation';
+import { InformationControllers } from './Information.controller';
 
 const router = express.Router();
 
 router.post(
-  '/addproject',
+  '/createInformation',
   auth(),
-  validateRequest(projectValidation.projectValidationSchema),
-  projectControllers.createProject,
+  validateRequest(personalInformationValidation.personalInformationSchema),
+  InformationControllers.createInformation,
 );
-router.get('/', projectControllers.getAllProject);
-router.get('/:id', projectControllers.getSingleProject);
+
+router.get('/:email',auth(), InformationControllers.getSingleInformation);
 router.patch(
-  '/updateproject/:id',
+  '/updateInformationById/:id',
   auth(),
-  projectControllers.updateProjectById,
+  validateRequest(personalInformationValidation.personalInformationUpdateSchema),
+  InformationControllers.updateInformationById,
 );
 
-router.delete('/deleteproject/:id', auth(), projectControllers.deleteProjectById);
 
-export const projectRoutes = router;
+export const InformationRoutes = router;
